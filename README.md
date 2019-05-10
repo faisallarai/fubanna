@@ -1,6 +1,6 @@
 # Fubanna
 
-Property Listing Platform that .
+Property Listing Platform.
 
 ## Installation
 
