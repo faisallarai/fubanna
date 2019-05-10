@@ -1,0 +1,14 @@
+{
+    "python.pythonPath": "C:\\Users\\ProductMgr_170\\Dev\\fubanna\\Scripts\\python.exe",
+    "python.linting.pylintEnabled": false,
+    "python.linting.enabled": true,
+    "python.linting.pylintPath": "C:\\Users\\ProductMgr_170\\Dev\\fubanna\\Scripts\\pylint.exe",
+    "python.linting.pylintArgs": [
+        "--load-plugins",
+        "pylint_django"
+    ],
+    "python.linting.pep8Args": [
+        "--ignore=E501"
+    ],
+    "python.linting.pep8Enabled": true
+}
