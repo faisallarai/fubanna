@@ -1,0 +1,11 @@
+{% extends '../base.html' %}
+
+{% block content %}
+<p>{{ title }}</p>
+
+{% if request.user.is_authenticated %}
+<p>LoggedIn</p>
+{% else %}
+<p>LoggedOut</p>
+{% endif %}
+{% endblock %}

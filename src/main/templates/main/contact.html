@@ -1,0 +1,10 @@
+{% extends '../base.html' %}
+
+{% block content %}
+<p>{{ title }}</p>
+<form action="{% url 'main:contact' %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">Send</button>
+</form>
+{% endblock %}
