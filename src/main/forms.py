@@ -1,41 +1,11 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
-from django.core.mail import send_mail
-from django.conf import settings
 
-from .models import CustomUser
+from django.contrib.auth import get_user_model
 
+from .tasks import send_contact_email
 
-class CustomUserCreationForm(UserCreationForm):
-
-    class Meta(UserCreationForm):
-        model = CustomUser
-        fields = ('email',)
-
-
-class CustomUserChangeForm(UserChangeForm):
-
-    class Meta(UserChangeForm):
-        model = CustomUser
-        fields = ('email',)
-
-
-class LoginForm(AuthenticationForm):
-    def confirm_login_allowed(self, user):
-        pass
-
-
-class RegisterForm(CustomUserCreationForm):
-    email = forms.EmailField(widget=forms.EmailInput(
-        attrs={'placeholder': 'Email Address'}))
-    password1 = forms.CharField(widget=forms.PasswordInput(
-        attrs={'placeholder': 'Password'}))
-    password2 = forms.CharField(widget=forms.PasswordInput(
-        attrs={'placeholder': 'Confirm Password'}))
-
-    class Meta(UserCreationForm):
-        model = CustomUser
-        fields = ('email', 'password1', 'password2')
+CUSTOMUSER = get_user_model()
 
 
 class ContactForm(forms.Form):
@@ -49,10 +19,4 @@ class ContactForm(forms.Form):
         attrs={"placeholder": 'Message'}))
 
     def send_email(self):
-
-        subject = 'Contact Us'
-        message = self.cleaned_data.get('message')
-        from_email = self.cleaned_data.get('email')
-        recipient_list = [settings.EMAIL_HOST_USER]
-        fail_silently = False
-        send_mail(subject, message, from_email, recipient_list, fail_silently)
+        send_contact_email.delay(self.cleaned_data)

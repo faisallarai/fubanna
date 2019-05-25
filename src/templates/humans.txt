@@ -1,0 +1,16 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+    Issaka Faisal -- Developer -- @fbilarai
+
+# THANKS
+    Thanks to Allah for this wonderful idea, that will empower the youth through job creation
+
+# TECHNOLOGY COLOPHON
+    Django
+    Django Restframework, GraphQL
+    Celery, Redis
+    Selenium, Coverage
+    Bootstrap, HTML5, CSS3
+    jQuery, Modernizr

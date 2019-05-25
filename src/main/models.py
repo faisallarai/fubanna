@@ -1,14 +1,14 @@
 import uuid
 
-from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.db.models import signals
-from django.core.mail import send_mail
-from django.shortcuts import reverse
-from django.conf import settings
+from django.urls import reverse
+
 
 from utils.helpers import get_image_path
+
 from .managers import CustomUserManager
 
 
@@ -36,6 +36,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         upload_to=get_image_path, blank=False, null=False)
     phone_number = models.CharField(max_length=13, unique=True, db_index=True)
 
+    class Meta:
+        verbose_name = _('user')
+
     def __str__(self):
         return self.email
 
@@ -45,16 +48,17 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def get_phone_number(self):
         return self.phone_number
 
+    def get_absolute_url(self):
+        return reverse('main:accounts-detail', kwargs={'pk': self.pk})
+
+
+from .tasks import send_verification_email
+
 
 def user_post_save(sender, instance, signal, *args, **kwargs):
     if not instance.is_verified:
-        subject = 'Verify your fubanna account'
-        message = 'Follow this link to verify your account: ''http://localhost:8000%s' % reverse(
-            'verify', kwargs={'uuid': str(instance.verification_uuid)})
-        from_email = settings.EMAIL_HOST_USER
-        recipient_list = [instance.email]
-        fail_silently = False
-        send_mail(subject, message, from_email, recipient_list, fail_silently)
+        send_verification_email.delay(instance.pk)
+        print('sent')
 
 
 signals.post_save.connect(user_post_save, CustomUser)
