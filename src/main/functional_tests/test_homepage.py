@@ -48,9 +48,6 @@ class HomeNewVisitorTest(StaticLiveServerTestCase):
             local_date = self.browser.find_element_by_id('local-date')
             self.assertEqual(formats.date_format(today, use_l10n=True),
                              local_date.text)
-            self.assertEqual(today.strftime(
-                '%Y-%m-%d'), today.strftime(
-                '%Y-%m-%d'))
 
     def test_timezone(self):
         self.browser.get(self.get_full_url('main:home'))

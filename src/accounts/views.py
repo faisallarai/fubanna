@@ -1,61 +1,73 @@
 import uuid
 import sys
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, HttpResponseRedirect
 from django.views.generic import CreateView, ListView, DetailView, TemplateView
-from django.urls import reverse_lazy
-from django.contrib.auth import get_user_model, login
+from django.urls import reverse_lazy, reverse
+from django.contrib.auth import get_user_model, login as auth_login, authenticate
+
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.utils.encoding import force_text
-from django.core.mail import send_mail
-from django.utils.http import urlsafe_base64_decode
+from django.contrib import messages
 
-from .forms import LoginForm, RegisterForm
-customuser = get_user_model()
+from accounts.forms import LoginForm, RegisterForm
+from accounts.tasks import send_login_email_task
+
+User = get_user_model()
 
 
-def send_subscribe_email(request):
+def send_login_email(request):
     email = request.POST['email']
-    uid = str(uuid.uuid4())
-    Token.objects.create(email=email, uuid=uuid)
-    url = request.build_absolute_uri(f'/accounts/subscribe?uid={uid}')
-    print('saving uid', uid, 'for email', email, file=sys.stderr)
-    send_mail('Your login link Fubanna',
-              f'Use this link to log in: \n\n{url}', 'noreply@fubanna.com', [email])
+    send_login_email_task.delay(email)
 
-    return render(request, 'subscribe_email_sent.html')
+    messages.success(
+        request, "Check your email, we've sent you a link you can use to log in.")
+
+    return HttpResponseRedirect(reverse('accounts:login'))
 
 
-def activate_view(request, uidb64, token):
-    try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
-        user = customuser.objects.get(verification_uuid=uid)
-    except (TypeError, ValueError, OverflowError, customuser.DoesNotExist):
-        user = None
+def activate_login_email(request, uid):
+    print('uid:', uid)
+    user = authenticate(uid)
 
-    if user is not None and account_activation_token.check_token(user, token):
-        user.is_active = True
-        user.is_verified = True
-        user.save()
-        login(request, user)
-        return redirect('main:home')
+    if request.user.is_authenticated:
+        print('authenticated')
 
-    return render(request, 'main/user_activation_invalid.html')
+    if user is not None:
+        print('login')
+        auth_login(request, user)
+
+    return HttpResponseRedirect(reverse('main:home'))
+
+# def agent_activation_view(request, uidb64, token):
+#     try:
+#         uid = force_text(urlsafe_base64_decode(uidb64))
+#         user = User.objects.get(verification_uuid=uid)
+#     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+#         user = None
+
+#     if user is not None and account_activation_token.check_token(user, token):
+#         user.is_active = True
+#         user.is_verified = True
+#         user.save()
+#         login(request, user)
+#         return redirect('main:home')
+
+#     return render(request, 'main/user_activation_invalid.html')
 
 
 class AgentUserListView(ListView):
     template_name = 'accounts/user_list.html'
-    queryset = customuser.objects.all()
+    queryset = User.objects.all()
     context_object_name = 'users'
 
 
 class AgentUserDetailView(DetailView):
-    model = customuser
+    model = User
     template_name = 'main/users/user_detail.html'
 
 
-class AgentActivationSentView(TemplateView):
+class UserActivationSentView(TemplateView):
     template_name = 'main/user_activation_sent.html'
 
 

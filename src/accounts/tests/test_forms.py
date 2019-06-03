@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from main.forms import LoginForm
+from accounts.forms import LoginForm
 
 
 class LoginFormTest(TestCase):
@@ -12,4 +12,4 @@ class LoginFormTest(TestCase):
         self.assertIn('placeholder="Email"', self.form.as_p())
 
     def test_form_email_input_has_css_classes(self):
-        self.assertIn('class="form-control', self.form.as_p())
+        self.assertIn('class="keyword-input', self.form.as_p())

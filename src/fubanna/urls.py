@@ -13,7 +13,9 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns(
     path('admin/', admin.site.urls),
+    path('admin/statuscheck/', include('celerybeat_status.urls')),
     path('', include('main.urls', namespace='main')),
+    path('accounts/', include('accounts.urls', namespace='accounts')),
 )
 
 if settings.DEBUG:

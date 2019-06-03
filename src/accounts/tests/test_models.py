@@ -1,46 +1,25 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
-from django.utils.translation import activate
+
+from accounts.models import Token
+
+User = get_user_model()
 
 
-class CustomUserModelTest(TestCase):
+class UserModelTest(TestCase):
 
-    @classmethod
-    def setUpTestData(cls):
-        cls.user = get_user_model()
-        cls.user.objects.create_user(
-            email='user@gmail.com', password='user', phone_number='0244454323', screen_name='usertest')
+    def test_user_is_valid_with_email_only(self):
+        user = User(email='ama@gmail.com')
+        user.full_clean()  # should not raise
 
-        activate('en')
+    def test_email_is_primary_key(self):
+        user = User(email='kofi@gmail.com')
+        self.assertEqual(user.pk, 'kofi@gmail.com')
 
-    def test_email_label(self):
-        user = self.user.objects.get(id=1)
-        field_label = user._meta.get_field('email').verbose_name
-        self.assertEqual(field_label, 'email')
 
-    def test_phone_number_label(self):
-        user = self.user.objects.get(id=1)
-        field_label = user._meta.get_field('phone_number').verbose_name
-        self.assertEqual(field_label, 'phone number')
+class TokenModelTest(TestCase):
 
-    def test_screen_name_label(self):
-        user = self.user.objects.get(id=1)
-        field_label = user._meta.get_field('screen_name').verbose_name
-        self.assertEqual(field_label, 'screen name')
-
-    def test_phone_number_max_length(self):
-        user = self.user.objects.get(id=1)
-        max_length = user._meta.get_field('phone_number').max_length
-        self.assertEqual(max_length, 13)
-
-    def test_screen_name_max_length(self):
-        user = self.user.objects.get(id=1)
-        max_length = user._meta.get_field('screen_name').max_length
-        self.assertEqual(max_length, 50)
-
-    def test_get_absolute_url(self):
-        for lang in ['en', 'fr']:
-            activate(lang)
-            user = self.user.objects.get(id=1)
-            url = user.get_absolute_url()
-            self.assertEqual(url, '/' + lang + '/accounts/1/')
+    def test_links_user_with_auto_generated_uid(self):
+        token1 = Token.objects.create(email='ama@gmail.com')
+        token2 = Token.objects.create(email='amam@gmail.com')
+        self.assertNotEqual(token1.uid, token2.uid)

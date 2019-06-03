@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.twitter',
 
     'main',
+    'accounts',
     'properties',
 
 
@@ -139,7 +140,11 @@ STATIC_ROOT = os.path.join(os.path.dirname(
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'media_cdn', 'media_root')
 
-AUTH_USER_MODEL = 'main.CustomUser'
+AUTH_USER_MODEL = 'accounts.User'
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'accounts.authentication.PasswordlessAuthenticationBackend'
+]
 
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -150,11 +155,25 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-REDIS_HOST = '192.168.163.49'
-REDIS_PORT = '6379'
-BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/1'
-BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
-CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/1'
+# REDIS_HOST = '192.168.163.49'
+# REDIS_PORT = '6379'
+# BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/1'
+# BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
+# CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/1'
+
+CELERY_ALWAYS_EAGER = True
+
+# TRANSPORT
+CELERY_BROKER_TRANSPORT = 'redis'
+CELERY_BROKER_HOST = '192.168.163.49'
+CELERY_BROKER_PORT = '6379'
+CELERY_BROKER_VHOST = '0'
+
+# RESULT
+CELERY_RESULT_BACKEND = 'redis'
+CELERY_REDIS_HOST = '192.168.163.49'
+CELERY_REDIS_PORT = '6379'
+CELERY_REDIS_DB = '1'
 
 
 USE_I18N = True
@@ -177,3 +196,20 @@ TIME_ZONE = 'Africa/Accra'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+        },
+    },
+    'root': {'level': 'INFO'},
+}

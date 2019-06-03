@@ -93,9 +93,9 @@
                 <div class="footer_panel bottom30">
                     <h4 class="bottom30 heading">Subscribe</h4>
                     <p>Sign up with your email to get latest updates and offers</p>
-                    <form class="top30" action="{% url 'send_login_email' %}" method="POST">
+                    <form class="top30" action="{% url 'accounts:login' %}" method="POST">
                         {% csrf_token %}
-                        <input class="search" placeholder="Enter your Email" type="search">
+                        <input class="search" placeholder="Enter your Email" type="search" name="email">
                         <a class="button_s" href="#">
                             <i class="icon-mail-envelope-open"></i>
                         </a>

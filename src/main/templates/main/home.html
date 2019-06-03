@@ -100,10 +100,10 @@
             <li><a href="submit_property.html"><i class="icon-icons215"></i>Submit Property</a></li>
             <li><a href="my_properties.html"><i class="icon-icons215"></i>My Property</a></li>
             <li><a href="profile.html"><i class="icon-icons230"></i>Profile</a></li>
-            {% if request.user.is_authenticated %}
-            <li><a href="{% url 'main:logout' %}"><i class="icon-icons179"></i>Logout</a></li>
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'accounts:logout' %}"><i class="icon-icons179"></i>Logout</a></li>
             {% else %}
-            <li><a href="{% url 'main:login' %}"><i class="icon-icons179"></i>Login / Register</a></li>
+            <li><a href="{% url 'accounts:login' %}"><i class="icon-icons179"></i>Login / Register</a></li>
             {% endif %}
             <li class="last-icon"><i class="icon-icons215"></i></li>
         </ul>
