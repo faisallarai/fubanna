@@ -1,0 +1,7 @@
+{% autoescape off %}
+Hi {{ user.screen_name }},
+
+Your login link for Fubanna, Use this link to log in:
+
+http://{{ domain }}{% url 'accounts:activate' uid=uid %}
+{% endautoescape %}

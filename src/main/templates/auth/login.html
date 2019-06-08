@@ -1,0 +1,210 @@
+{% extends '../base.html' %}
+
+{% block header %}
+<!--Header-->
+<header class="layout_default">
+    <div class="topbar grey">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5">
+                    <p>We believe that with trust and transparency.</p>
+                </div>
+                <div class="col-md-7 text-right">
+                    <ul class="breadcrumb_top text-right">
+                        <li><a href="favorite_properties.html"><i class="icon-icons43"></i>Favorites</a></li>
+                        <li><a href="submit_property.html"><i class="icon-icons215"></i>Submit Property</a></li>
+                        <li><a href="my_properties.html"><i class="icon-icons215"></i>My Property</a></li>
+                        <li><a href="profile.html"><i class="icon-icons230"></i>Profile</a></li>
+                        <li><a href="login.html"><i class="icon-icons179"></i>Loginn / Register</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header-upper">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-12">
+                    <div class="logo"><a href="index3.html"><img alt="" src="images/logo.png"></a></div>
+                </div>
+                <!--Info Box-->
+                <div class="col-md-9 col-sm-12 right">
+                    <div class="info-box first">
+                        <div class="icons"><i class="icon-telephone114"></i></div>
+                        <ul>
+                            <li><strong>Phone Number</strong></li>
+                            <li>+233 - 000 - 000 - 68</li>
+                        </ul>
+                    </div>
+                    <div class="info-box">
+                        <div class="icons"><i class="icon-icons74"></i></div>
+                        <ul>
+                            <li><strong>Accra Digital Center,</strong></li>
+                            <li>Circle close to VIP, Accra</li>
+                        </ul>
+                    </div>
+                    <div class="info-box">
+                        <div class="icons"><i class="icon-icons142"></i></div>
+                        <ul>
+                            <li><strong>Email Address</strong></li>
+                            <li><a href="javascript:void(0)">faisallarai@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav class="navbar navbar-default navbar-sticky bootsnav">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="attr-nav">
+                        <ul class="social_share clearfix">
+                            <li><a href="javascript:void(0)" class="facebook"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="javascript:void(0)" class="twitter"><i class="fa fa-twitter"></i></a></li>
+                            <li><a class="google" href="javascript:void(0)"><i class="icon-google4"></i></a></li>
+                        </ul>
+                    </div>
+                    <!-- Start Header Navigation -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <a class="navbar-brand sticky_logo" href="index3.html"><img src="images/logo-white.png"
+                                class="logo" alt=""></a>
+                    </div> <!-- End Header Navigation -->
+                    <div class="collapse navbar-collapse" id="navbar-menu">
+                        <ul class="nav navbar-nav" data-in="fadeIn" data-out="fadeOut">
+                            <li class="active"><a href="/">Home</a></li>
+                            <li><a href="#">Properties</a></li>
+                            <li><a href="#">FAQS</a></li>
+                            <li><a href="contact.html">Blog</a></li>
+                            <li><a href="contact.html">Contact Us</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+<!--Header Ends-->
+{% endblock %}
+{% block content %}
+<!-- Page Banner Start-->
+<section class="page-banner padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <h1 class="text-uppercase">Login</h1>
+                <p>A platform that connects agents and workers. Request for agent now.</p>
+                <ol class="breadcrumb text-center">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Pages</a></li>
+                    <li class="active">Login</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Page Banner End -->
+
+
+<!-- Login -->
+<section id="login" class="padding">
+    <div class="container">
+        <h3 class="hidden">hidden</h3>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="profile-login">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
+                                data-toggle="tab">Login</a></li>
+                        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab"
+                                data-toggle="tab">Register</a></li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content padding_half">
+                        <div role="tabpanel" class="tab-pane fade in active" id="home">
+                            <div class="agent-p-form">
+                                <form action="{% url 'main:login' %}" class="callus clearfix" method="POST">
+                                    {% csrf_token %}
+                                    <div class="single-query form-group col-sm-12">
+                                        {{ form.username }}
+                                    </div>
+                                    <div class="single-query form-group  col-sm-12">
+                                        {{ form.password }}
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="col-sm-6">
+                                                {% for message in messages %}
+                                                {% if message.level_tag == 'success' %}
+                                                <div class="alert alert-success">{{ message }}</div>
+                                                {% else %}
+                                                <div class="alert alert-warning">{{ message }}</div>
+                                                {% endif %}
+                                                <div class="search-form-group white form-group text-left">
+                                                    <div class="check-box-2"><i><input type="checkbox"
+                                                                name="check-box"></i></div>
+                                                    <span>Remember Me</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 text-right">
+                                                <a href="#" class="lost-pass">Lost your password?</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-sm-12">
+                                        <input type="hidden" name="next" value="{{ next }}">
+                                        <input type="submit" value="sign in" class="btn-slide border_radius">
+                                    </div>
+                                    <div class="or-seperator"><i>or</i></div>
+                                    <p class="text-center" style="color: white">Login with your social media account</p>
+                                    <div class="text-center social-btn">
+                                        <a href="#" class="btn btn-primary"><i class="fa fa-facebook"></i>&nbsp;
+                                            Facebook</a>
+                                        <a href="#" class="btn btn-info"><i class="fa fa-twitter"></i>&nbsp; Twitter</a>
+                                        <a href="#" class="btn btn-danger"><i class="fa fa-google"></i>&nbsp; Google</a>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="profile">
+                            <div class="agent-p-form">
+                                <form class="callus clearfix">
+                                    <div class="single-query col-sm-12 form-group">
+                                        <input type="text" class="keyword-input" placeholder="username" required>
+                                    </div>
+                                    <div class="single-query col-sm-12 form-group">
+                                        <input type="text" class="keyword-input" placeholder="Email Address">
+                                    </div>
+                                    <div class="single-query col-sm-12 form-group">
+                                        <input type="password" class="keyword-input" placeholder="Password">
+                                    </div>
+                                    <div class="single-query col-sm-12 form-group">
+                                        <input type="password" class="keyword-input" placeholder="Confirm  Password"
+                                            readonly>
+                                    </div>
+                                    <div class="search-form-group white col-sm-12 form-group text-left">
+                                        <div class="check-box-2"><i><input type="checkbox" name="check-box"></i></div>
+                                        <span>Receive Newsletter</span>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                                        <div class="query-submit-button">
+                                            <input type="submit" value="Creat an Account" class="btn-slide">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Login end -->
+
+{% endblock %}
