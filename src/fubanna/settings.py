@@ -142,9 +142,10 @@ MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'media_cdn', 'media_root')
 
 AUTH_USER_MODEL = 'accounts.User'
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'accounts.authentication.PasswordlessAuthenticationBackend'
+    'accounts.authentication.PasswordlessAuthenticationBackend',
+    'django.contrib.auth.backends.ModelBackend'
 ]
+
 
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

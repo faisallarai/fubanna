@@ -1,17 +1,20 @@
+import uuid
+
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import get_user_model
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 
-from .models import Token
+from .models import Agent, Token
+from .tasks import send_register_email_task
 
 User = get_user_model()
 
 
 class LoginForm(AuthenticationForm):
-    email = forms.CharField(widget=forms.TextInput(
-        attrs={'placeholder': 'Email', 'class': 'keyword-input', 'name': 'email'}))
+    email = forms.EmailField(widget=forms.EmailInput(
+        attrs={'placeholder': 'Your Email', 'class': 'keyword-input', 'id': 'login_email'}))
 
     def send_email(self):
         # later put it in task
@@ -31,19 +34,17 @@ class LoginForm(AuthenticationForm):
         email.send()
 
 
-class RegisterForm(UserCreationForm):
+class RegisterForm(forms.ModelForm):
     email = forms.EmailField(widget=forms.EmailInput(
-        attrs={'placeholder': 'Email Address'}))
-    password1 = forms.CharField(widget=forms.PasswordInput(
-        attrs={'placeholder': 'Password'}))
-    password2 = forms.CharField(widget=forms.PasswordInput(
-        attrs={'placeholder': 'Confirm Password'}))
+        attrs={'placeholder': 'Your Email', 'class': 'keyword-input', 'id': 'register_email'}))
     phone_number = forms.CharField(widget=forms.TextInput(
-        attrs={'placeholder': 'Your Phone Number'}))
+        attrs={'placeholder': 'Your Phone Number', 'class': 'keyword-input', 'id': 'phone_number'}))
     screen_name = forms.CharField(
-        widget=forms.TextInput(attrs={'placeholder': 'Your Name'}))
+        widget=forms.TextInput(attrs={'placeholder': 'Your Name', 'class': 'keyword-input', 'id': 'screen_name'}))
 
-    class Meta(UserCreationForm):
-        model = User
-        fields = ('email', 'password1', 'password2',
-                  'phone_number', 'screen_name')
+    class Meta:
+        model = Agent
+        fields = ['email', 'phone_number', 'screen_name', 'slug']
+
+    def send_email(self):
+        send_register_email_task.delay(self.cleaned_data)

@@ -25,11 +25,27 @@ def send_login_email_task(self, email):
             'domain': current_site,
             'uid': uid
         })
-        print('called')
         email = EmailMessage(mail_subject, message, to=[email])
         email.send()
     except Token.DoesNotExist:
         logging.warning(
             "Tried to send activation email to non-existing user '%s'", email)
+    except smtplib.SMTPException as exc:
+        raise self.retry(exc=exc)
+
+
+@shared_task(bind=True)
+def send_register_email_task(self, data):
+    try:
+        email = data.get('email')
+        mail_subject = "Request to be an Agent"
+        message = render_to_string('accounts/agent_verification_email.html', {
+            'email': email,
+            'phone_number': data.get('phone_number'),
+            'screen_name': data.get('screen_name')
+        })
+        email = "faisallarai@gmail.com"
+        email = EmailMessage(mail_subject, message, to=[email])
+        email.send()
     except smtplib.SMTPException as exc:
         raise self.retry(exc=exc)

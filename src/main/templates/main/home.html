@@ -77,8 +77,15 @@
                         <a class="navbar-brand" href="index6.html"><img src="images/logo.png" class="logo" alt=""></a>
                     </div>
                     <div class="collapse navbar-collapse" id="navbar-menu">
-                        <ul class="nav navbar-nav navbar-right" data-in="fadeIn" data-out="fadeOut">
+                        {% if messages %}
+                        <ul class="nav navbar-nav navbar-left messages">
+                            {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}" {% endif %}><div class="alert alert-success">{{ message }}</div></li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
 
+                        <ul class="nav navbar-nav navbar-right" data-in="fadeIn" data-out="fadeOut">
                             <li class="active"><a href="/">Home</a></li>
                             <li><a href="#">Properties</a></li>
                             <li><a href="#">FAQS</a></li>
@@ -96,11 +103,12 @@
 <div class="tp_overlay">
     <div class="topbar clearfix">
         <ul class="breadcrumb_top">
+            
+            {% if user.is_authenticated %}
             <li><a href="favorite_properties.html"><i class="icon-icons43"></i>Favorites</a></li>
             <li><a href="submit_property.html"><i class="icon-icons215"></i>Submit Property</a></li>
-            <li><a href="my_properties.html"><i class="icon-icons215"></i>My Property</a></li>
-            <li><a href="profile.html"><i class="icon-icons230"></i>Profile</a></li>
-            {% if user.is_authenticated %}
+            <li><a href="my_properties.html"><i class="icon-icons215"></i>{{agent.slug}}</a></li>
+            
             <li><a href="{% url 'accounts:logout' %}"><i class="icon-icons179"></i>Logout</a></li>
             {% else %}
             <li><a href="{% url 'accounts:login' %}"><i class="icon-icons179"></i>Login / Register</a></li>

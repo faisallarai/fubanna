@@ -37,7 +37,6 @@ class ContactPageView(FormView):
         initial = super().get_initial()
 
         if self.request.user.is_authenticated:
-            print(self.request.user)
             initial['name'] = self.request.user.get_screen_name()
             initial['email'] = self.request.user
             initial['phone_number'] = self.request.user.get_phone_number()

@@ -13,7 +13,7 @@ class FunctionalTest(StaticLiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
-        self.browser.implicitly_wait(3)
+        self.browser.implicitly_wait(5)
         self.browser.wait = WebDriverWait(self.browser, 10)
         activate('en')
 

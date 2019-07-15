@@ -33,7 +33,7 @@
                         <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
                                 data-toggle="tab">Login</a></li>
                         <li role="presentation"><a href="#profile" aria-controls="profile" role="tab"
-                                data-toggle="tab">Register</a></li>
+                                data-toggle="tab">Become an Agent</a></li>
                     </ul>
                     <!-- Tab panes -->
                     <div class="tab-content padding_half">
@@ -41,16 +41,10 @@
                             <div class="agent-p-form">
                                 <form action="{% url 'accounts:send_login_email' %}" method="POST"
                                     class="callus clearfix">
-                                    {% for message in messages %}
-                                    {% if message.level_tag == 'success' %}
-                                    <div class="alert alert-success">{{ message }}</div>
-                                    {% else %}
-                                    <div class="alert alert-warning">{{ message }}</div>
-                                    {% endif %}
-                                    {% endfor %}
+                                    {% csrf_token %}
+
                                     <div class="single-query form-group  col-sm-12">
-                                        {% csrf_token %}
-                                        {{ form.email }}
+                                        {{ login_form.email }}
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-12">
@@ -67,7 +61,7 @@
                                         </div>
                                     </div>
                                     <div class=" col-sm-12">
-                                        <input type="submit" value="log in" class="btn-slide border_radius">
+                                        <input type="submit" value="Send" class="btn-slide border_radius">
                                     </div>
                                     <div class="or-seperator"><i>or</i></div>
                                     <p class="text-center" style="color: white">Login with your social media account</p>
@@ -82,19 +76,18 @@
                         </div>
                         <div role="tabpanel" class="tab-pane fade" id="profile">
                             <div class="agent-p-form">
-                                <form class="callus clearfix">
+                                <form method="POST" action="{% url 'accounts:register' %}" class="callus clearfix">
+
+                                    {% csrf_token %}
+
                                     <div class="single-query col-sm-12 form-group">
-                                        <input type="text" class="keyword-input" placeholder="username" required>
+                                        {{ register_form.email }}
                                     </div>
                                     <div class="single-query col-sm-12 form-group">
-                                        <input type="text" class="keyword-input" placeholder="Email Address">
+                                        {{ register_form.phone_number }}
                                     </div>
                                     <div class="single-query col-sm-12 form-group">
-                                        <input type="password" class="keyword-input" placeholder="Password">
-                                    </div>
-                                    <div class="single-query col-sm-12 form-group">
-                                        <input type="password" class="keyword-input" placeholder="Confirm  Password"
-                                            readonly>
+                                        {{ register_form.screen_name }}
                                     </div>
                                     <div class="search-form-group white col-sm-12 form-group text-left">
                                         <div class="check-box-2"><i><input type="checkbox" name="check-box"></i></div>
@@ -102,7 +95,7 @@
                                     </div>
                                     <div class="col-md-12 col-sm-12 col-xs-12 text-center">
                                         <div class="query-submit-button">
-                                            <input type="submit" value="Creat an Account" class="btn-slide">
+                                            <input type="submit" value="Register" class="btn-slide">
                                         </div>
                                     </div>
                                 </form>
