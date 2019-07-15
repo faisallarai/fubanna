@@ -1,0 +1,63 @@
+[33mcommit 0c773a01b664959d7b19a75aa6f86cd2361bcc2d[m[33m ([m[1;36mHEAD -> [m[1;32maccounts[m[33m)[m
+Merge: c34a867 0eb761f
+Author: Issaka Faisal <faisallarai@gmail.com>
+Date:   Mon Jul 15 10:07:40 2019 +0000
+
+    Merge branch 'master' of https://github.com/faisallarai/fubanna into accounts
+
+[33mcommit c34a867c8ccbcdc1956fdfeb735683c358fd4c73[m
+Author: Issaka Faisal <faisallarai@gmail.com>
+Date:   Mon Jul 15 10:06:26 2019 +0000
+
+    changes to the test cases
+
+[33mcommit 0eb761feb2d3a8129e2ac3b69da40b0134ab4fe2[m
+Merge: e138017 a253d09
+Author: Issaka Faisal <faisallarai@gmail.com>
+Date:   Sat Jun 8 11:41:43 2019 +0000
+
+    Merge pull request #1 from faisallarai/accounts
+    
+    Accounts
+
+[33mcommit a253d095682b1d0e9df1ef9be2545d4a1856ca20[m[33m ([m[1;31morigin/accounts[m[33m)[m
+Author: Issaka Faisal <faisallarai@gmail.com>
+Date:   Mon Jun 3 12:08:01 2019 +0000
+
+    testing
+
+[33mcommit 0ea965038bf4c52994d6ef3f164f5b0729fa2012[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m
+Author: Issaka Faisal <faisallarai@gmail.com>
+Date:   Sat May 25 10:41:53 2019 +0000
+
+    adding authentication
+
+[33mcommit afbe1900bb68e4e6208c78a887428adf9c2e0774[m
+Author: Issaka Faisal <faisallarai@gmail.com>
+Date:   Mon May 13 12:14:05 2019 +0000
+
+    working on user accounts
+
+[33mcommit e138017221032fca715c9e50a5588b82216c25ef[m
+Author: Issaka Faisal <faisallarai@gmail.com>
+Date:   Fri May 10 10:34:02 2019 +0000
+
+    Update README.md
+
+[33mcommit e3ec44ce7dd5c4af191c926f30f4fe09249407c7[m
+Author: Issaka Faisal <faisallarai@gmail.com>
+Date:   Fri May 10 10:33:28 2019 +0000
+
+    Update README.md
+
+[33mcommit 1ad16d3e1b73642a7b868d456428d4cf2f5bdc87[m
+Author: Issaka Faisal <faisallarai@gmail.com>
+Date:   Fri May 10 09:49:00 2019 +0000
+
+    working on the user accounts, agent and client models
+
+[33mcommit 6833fabd5aeec5879f653d1ae5b5d503e210b40e[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m, [m[1;32mdevelop[m[33m)[m
+Author: Issaka Faisal <faisallarai@gmail.com>
+Date:   Fri May 10 07:35:52 2019 +0000
+
+    Initial commit
